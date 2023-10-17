@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Book;
+use App\Models\Category;
+use Illuminate\View\View;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
@@ -24,9 +26,15 @@ class BookController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create():View
     {
-        //
+        //viewにカテゴリ一覧を表示するために全件取得
+        $categories = Category::all();
+
+        //viewオブジェクトを返す
+        return view('admin/book/create', [
+            'categories' => $categories
+        ]);
     }
 
     /**
@@ -34,7 +42,19 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //書籍データ登録用のオブジェクトを作成する
+        $book = new Book();
+
+        //リクエストオブジェクトからパラメーターを取得
+        $book->category_id = $request->category_id;
+        $book->title = $request->title;
+        $book->price = $request->price;
+
+        //保存
+        $book->save();
+
+        //保存した書籍情報をレスポンスとして返す
+        return $book;
     }
 
     /**
