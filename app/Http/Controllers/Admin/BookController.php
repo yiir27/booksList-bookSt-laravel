@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BookPostRequest;
 use App\Models\Book;
 use App\Models\Category;
 use Illuminate\View\View;
@@ -40,7 +41,7 @@ class BookController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(BookPostRequest $request): Book
     {
         //書籍データ登録用のオブジェクトを作成する
         $book = new Book();
